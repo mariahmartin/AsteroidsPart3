@@ -7,8 +7,6 @@ class Asteroid extends Floater
   Asteroid()
   {
     super();
-    //myColor = 255;
-    //makePoints();
     myCenterX = width/2;
     myCenterY = height/2;
     myColorRGB = new int[3];
@@ -69,14 +67,12 @@ class Asteroid extends Floater
   {
     super.move();
     turn(rotSpeed);
+    
   }
-  //   public void setMyColor(int myR_,int myG_, int myB_)
-  //  {
-  //    myColor = x;
-  //  }
+
   public void show()
   {
-    //super.show();
+    
     translate((float)myCenterX, (float)myCenterY);
 
     //convert degrees to radians for rotate()
@@ -109,52 +105,3 @@ class Asteroid extends Floater
     return myCenterY;
   }
 }
-
-/*public void makePoints()
- {
-/*{
- for (int i = 0; i<(int)corners/4; i++)
- {
- xCorners[i] = (int)(Math.random() * -30);
- }
- for (int i = (int)corners/4; i<(int)2*corners/4; i++)
- {
- xCorners[i] = (int)(Math.random() * 30);
- }
- for (int i = (int)2*corners/4; i<(int)3*corners/4; i++)
- {
- xCorners[i] = (int)(Math.random() * 30);
- }
- for (int i = (int)3*corners/4; i<(int)4*corners/4; i++)
- {
- xCorners[i] = (int)(Math.random() * -30);
- }*/
-/*
-      for (int i = 0; i<5; i++)
- {
- xCorners[i] = (int)(Math.random() * -30);
- }
- for (int i = 5; i<10; i++)
- {
- xCorners[i] = (int)(Math.random() * 30);
- }
- for (int i = 10; i<15; i++)
- {
- xCorners[i] = (int)(Math.random() * 30);
- }
- for (int i = 15; i<20; i++)
- {
- xCorners[i] = (int)(Math.random() * -30);
- }
- 
- 
- for (int i = 0; i<corners; i++)
- {
- yCorners[i] = (int)(Math.random() * 30);
- }
- for (int i = 0; i<(int)(corners/2); i++)
- {
- yCorners[i] = -yCorners[i];
- }
- }
- }*/

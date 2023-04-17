@@ -5,7 +5,7 @@ class Spaceship extends Floater
   {
     super();
     wPressed = aPressed = dPressed = false;
-    myColor = 255;//(int)(Math.random() * 255);
+    myColor = 255;
     myCenterX = width/2;
     myCenterY = height/2;
     corners = 4;

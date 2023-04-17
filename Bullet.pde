@@ -1,25 +1,18 @@
 class Bullet extends Floater
 {
-  Bullet(float centerX,float  centerY,float pd ) {
-    //myCenterX = bob.getXCenter();
-    //myCenterY = bob.getYCenter();
-    //myXspeed = bob.getXspeed();
-    //myYspeed = bob.getYspeed();
-    //myPointDirection = bob.getPointDirection();
-    
-    myCenterX = centerX;
-    myCenterY = centerY;
-   // myXspeed = 0;
-  //  myYspeed =0;
-    myPointDirection = pd;
-    accelerate(3);
+  Bullet(Spaceship bob) {
+    myCenterX = bob.getXCenter();
+    myCenterY = bob.getYCenter();
+    myXspeed = bob.getXspeed();
+    myYspeed = bob.getYspeed();
+    myPointDirection = bob.getPointDirection();
+    accelerate(6);
   }
 
   public void show()
   {
     fill(255, 0, 0);
     ellipse((float)myCenterX, (float)myCenterY, 15, 15);
-    //line((float)myCenterX, (float)myCenterY, (float) (myCenterX + myXspeed * 10), (float) (myCenterY + myYspeed * 10));
   }
   
   public double getXspeed ()

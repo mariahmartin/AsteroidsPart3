@@ -5,13 +5,17 @@ ArrayList <Bullet> bulletsGroup;
 Star[] nightSky = new Star[200];
 ArrayList <Asteroid> asteroidsGroup;
 int numAsteroids, numBullets;
-int asteroidsCounter ;
+int asteroidsCounter;
+int health;
+int score;
 
 public void setup()
 {
   numAsteroids = 10;
   asteroidsCounter = 0;
   numBullets = 0;
+  health = 5;
+  score = 0;
   asteroidsGroup = new ArrayList <Asteroid>();
   bulletsGroup = new ArrayList <Bullet>();
   size(750, 750);
@@ -26,46 +30,13 @@ public void setup()
     asteroidsGroup.add(new Asteroid());
     asteroidsCounter ++;
   }
-  /*for (int i=bulletsGroup.size()-1; i>=0; i--)
-  {
-    float bulletXcenter = (float)bulletsGroup.get(i).getXCenter();
-    float bulletYcenter = (float)bulletsGroup.get(i).getYCenter();
-    float asteroidXcenter = (float)asteroidsGroup.get(i).getXCenter();
-    float asteroidYcenter = (float)asteroidsGroup.get(i).getYCenter();
-    System.out.println(bulletXcenter);
-    //System.out.print(dist((float)bulletsGroup.get(i).getXCenter(), (float)bulletsGroup.get(i).getYCenter(), (float)asteroidsGroup.get(i).getXCenter(), (float) asteroidsGroup.get(i).getYCenter()));
-    if (dist(bulletXcenter, bulletYcenter, asteroidXcenter, asteroidYcenter) < 20)
-    {
-      asteroidsGroup.remove(asteroidsGroup.get(i));
-    }
-  }*/
- for (int i = asteroidsGroup.size() - 1; i >= 0; i--) {
-    float asteroidXcenter = (float)asteroidsGroup.get(i).getXCenter();
-    float asteroidYcenter = (float)asteroidsGroup.get(i).getYCenter();
-
-    for (int j = bulletsGroup.size() - 1; j >= 0; j--) {
-        float bulletXcenter = (float)bulletsGroup.get(j).getXCenter();
-        float bulletYcenter = (float)bulletsGroup.get(j).getYCenter();
-        
-
-       if (dist(bulletXcenter, bulletYcenter, asteroidXcenter, asteroidYcenter) < 100) {
-            asteroidsGroup.remove(i);
-            bulletsGroup.remove(j);
-            break; // Stop checking bullets for this asteroid since it has already been destroyed
-        }
-    }
-}
-  //print(asteroidsGroup.size());
-  // Iterate over the bullets in the bulletsGroup
-
-
-
-
-
-
 }
 public void draw()
 {
+  if (health ==0)
+  {
+    return;
+  }
   background(0);
   noStroke();
   for (int i = 0; i < nightSky.length; i++)
@@ -87,7 +58,47 @@ public void draw()
     asteroidsGroup.get(i).move();
     asteroidsGroup.get(i).show();
   }
+  for (int j = bulletsGroup.size() - 1; j >= 0; j--) {
+    for (int i = asteroidsGroup.size() - 1; i >= 0; i--) {
+      float bulletXcenter = (float)bulletsGroup.get(j).getXCenter();
+      float bulletYcenter = (float)bulletsGroup.get(j).getYCenter();
+      float asteroidXcenter = (float)asteroidsGroup.get(i).getXCenter();
+      float asteroidYcenter = (float)asteroidsGroup.get(i).getYCenter();
 
+      float distance = dist(bulletXcenter, bulletYcenter, asteroidXcenter, asteroidYcenter);
+      //System.out.println(distance);
+      if (distance < 50) {
+        asteroidsGroup.remove(i);
+        bulletsGroup.remove(j);
+        score += 100;
+        break;
+      }
+    }
+    for (int i = asteroidsGroup.size() - 1; i >= 0; i--) {
+      float asteroidXcenter = (float)asteroidsGroup.get(i).getXCenter();
+      float asteroidYcenter = (float)asteroidsGroup.get(i).getYCenter();
+
+
+      float distance = dist(asteroidXcenter, asteroidYcenter, (float)bob.getXCenter(), (float)bob.getYCenter());
+      //System.out.println(distance);
+      if (distance < 20 && health>0) {
+        asteroidsGroup.remove(i);
+        health -=1;
+        break;
+      }
+    }
+  }
+  if (health == 0) {
+    fill(255);
+    textSize(50);
+    textAlign(CENTER);
+    text("You lost! ", width/2, height/2); //prints sum
+  }
+  fill(255);
+  textSize(25);
+  textAlign(CENTER);
+  text("You have " + health + " health points left!", width/2, height-50);
+  text("You have " + score + " points!", width/2, height-20);
 }
 
 public void keyPressed()
@@ -115,18 +126,8 @@ public void keyPressed()
   if (key == ' ')
   {
     numBullets+=1;
-    bulletsGroup.add(new Bullet((float) bob.getXCenter(), (float)bob.getYCenter(), (float) bob.getPointDirection()));
-    //bullet.setXCenter(bob.getXCenter());
-    //bullet.setYCenter(bob.getYCenter());
-    //bullet.setPointDirection(bob.getPointDirection());
-    //bullet.show();
-    //bullet.move();
-    //bullet.accelerate(0.5);
+    bulletsGroup.add(new Bullet(bob));
   }
-  // if (key == 's')
-  //{
-  //  bob.accelerate(-0.05);
-  //}
 }
 public void keyReleased()
 {
@@ -147,14 +148,3 @@ public void keyReleased()
     bob.wPressed = false;
   }
 }
-
-/*public void removeBullets(ArrayList<Bullet> bulletsGroup) //note that this should NOT be called in a for loop
-{
-  for (int i = bulletsGroup.size()-1; i >=0; i--)
-  {
-    if (bulletsGroup.get(i).getRemove())
-    {
-      bulletsGroup.remove(i);
-    }
-  }
-}*/
